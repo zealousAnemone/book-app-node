@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [books, setBooks] = useState([]);
+  const [singleBook, setSingleBook] = useState([]);
+  const [bookView, toggleBookView] = useState(false);
   const [authorBooks, setAuthorBooks] = useState([]);
   const [authorView, toggleAuthorView] = useState(false);
 
@@ -25,8 +27,29 @@ function App() {
       });
   };
 
+  const displayBook = (title) => {
+    let bookTitle = { title };
+    console.log('displayBook: ', bookTitle);
+    fetch('/singlebook', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(bookTitle),
+    })
+      .then((res) => res.json())
+      .then((singleBook) => {
+        setSingleBook(singleBook);
+        toggleBook();
+      });
+  };
+
   const toggleAuthor = () => {
     toggleAuthorView(!authorView);
+  };
+
+  const toggleBook = () => {
+    toggleBookView(!bookView);
   };
 
   useEffect(() => {
@@ -43,7 +66,15 @@ function App() {
   for (let i = 0; i < books.length; i++) {
     bookList.push(
       <li key={i}>
-        {books[i].title},{' '}
+        <span
+          className="book-name"
+          id={books[i].title}
+          onClick={(e) => {
+            displayBook(e.target.id);
+          }}
+        >
+          {books[i].title},{' '}
+        </span>
         <span
           className="author-name"
           id={books[i].name}
@@ -58,15 +89,15 @@ function App() {
   }
   return (
     <div className="App">
-      {!authorView ? (
-        <ul>{bookList}</ul>
-      ) : (
+      {!authorView && !bookView && <ul>{bookList}</ul>}
+      {authorView && (
         <div>
           <h1>Books by {authorBooks[0].name}</h1>
           <ul>{authorList}</ul>
           <button onClick={toggleAuthor}>Back to List</button>
         </div>
       )}
+      {bookView && <h1>toggleBook</h1>}
     </div>
   );
 }
