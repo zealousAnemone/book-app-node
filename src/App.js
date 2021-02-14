@@ -64,6 +64,7 @@ function App() {
         <div>
           <h1>Books by {authorBooks[0].name}</h1>
           <ul>{authorList}</ul>
+          <button onClick={toggleAuthor}>Back to List</button>
         </div>
       )}
     </div>
