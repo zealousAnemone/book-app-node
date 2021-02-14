@@ -3,8 +3,11 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [books, setBooks] = useState([]);
-  const [author, setAuthor] = useState('');
+  const [authorBooks, setAuthorBooks] = useState([]);
+  const [authorView, toggleAuthorView] = useState(false);
+
   let bookList = [];
+  let authorList = [];
 
   const displayAuthor = (name) => {
     let author = { name };
@@ -14,7 +17,16 @@ function App() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(author),
-    }).then((res) => res.json());
+    })
+      .then((res) => res.json())
+      .then((authBooks) => {
+        setAuthorBooks(authBooks);
+        toggleAuthor();
+      });
+  };
+
+  const toggleAuthor = () => {
+    toggleAuthorView(!authorView);
   };
 
   useEffect(() => {
@@ -25,6 +37,9 @@ function App() {
       });
   }, []);
 
+  for (let i = 0; i < authorBooks.length; i++) {
+    authorList.push(<li key={i}>{authorBooks[i].title}</li>);
+  }
   for (let i = 0; i < books.length; i++) {
     bookList.push(
       <li key={i}>
@@ -43,7 +58,14 @@ function App() {
   }
   return (
     <div className="App">
-      <ul>{bookList}</ul>
+      {!authorView ? (
+        <ul>{bookList}</ul>
+      ) : (
+        <div>
+          <h1>Books by {authorBooks[0].name}</h1>
+          <ul>{authorList}</ul>
+        </div>
+      )}
     </div>
   );
 }

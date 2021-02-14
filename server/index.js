@@ -27,8 +27,8 @@ const showAuthor = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    console.log('Response.rows: ', response.rows);
     res.locals.author = response.rows;
+    // console.log(res.locals.author);
     next();
   });
 };
