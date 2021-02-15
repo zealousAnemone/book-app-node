@@ -1,5 +1,6 @@
 import './App.css';
 import { useState, useEffect } from 'react';
+import DupePopup from './components/DupePopup';
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -7,6 +8,7 @@ function App() {
   const [bookView, toggleBookView] = useState(false);
   const [authorBooks, setAuthorBooks] = useState([]);
   const [authorView, toggleAuthorView] = useState(false);
+  const [dupeView, toggleDupeView] = useState(false);
 
   let bookList = [];
   let authorList = [];
@@ -27,6 +29,10 @@ function App() {
       });
   };
 
+  const markDupe = (dupe, original) => {
+    console.log('duplicate!');
+  };
+
   const displayBook = (title) => {
     let bookTitle = { title };
     console.log('displayBook: ', bookTitle);
@@ -41,6 +47,7 @@ function App() {
       .then((singleBook) => {
         setSingleBook(singleBook);
         toggleBook();
+        console.log(singleBook);
       });
   };
 
@@ -50,6 +57,11 @@ function App() {
 
   const toggleBook = () => {
     toggleBookView(!bookView);
+  };
+
+  const toggleDupe = () => {
+    toggleDupeView(!dupeView);
+    console.log(dupeView);
   };
 
   useEffect(() => {
@@ -73,7 +85,7 @@ function App() {
             displayBook(e.target.id);
           }}
         >
-          {books[i].title},{' '}
+          {books[i].title}
         </span>
         <span
           className="author-name"
@@ -84,20 +96,42 @@ function App() {
         >
           {books[i].name}
         </span>
+        <input
+          type="checkbox"
+          id={books[i].title}
+          onClick={() => toggleDupe()}
+        ></input>
       </li>
     );
   }
   return (
     <div className="App">
-      {!authorView && !bookView && <ul>{bookList}</ul>}
+      {!authorView && !bookView && !dupeView && (
+        <ul>
+          <li>
+            <span className="header">
+              <span className="book-name">Title</span>
+              <span className="author-name">Author</span> Duplicate?
+            </span>
+          </li>
+          {bookList}
+        </ul>
+      )}
       {authorView && (
-        <div>
+        <div className="centered">
           <h1>Books by {authorBooks[0].name}</h1>
           <ul>{authorList}</ul>
           <button onClick={toggleAuthor}>Back to List</button>
         </div>
       )}
-      {bookView && <h1>toggleBook</h1>}
+      {bookView && (
+        <div className="centered">
+          <h1>{singleBook[0].title}</h1>
+          <h2>{singleBook[0].name}</h2>
+          <button onClick={toggleBook}>Back to List</button>
+        </div>
+      )}
+      {dupeView && <DupePopup />}
     </div>
   );
 }
