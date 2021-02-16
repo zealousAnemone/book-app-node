@@ -9,6 +9,7 @@ function App() {
   const [authorBooks, setAuthorBooks] = useState([]);
   const [authorView, toggleAuthorView] = useState(false);
   const [dupeView, toggleDupeView] = useState(false);
+  const [dupe, setDupe] = useState('');
 
   let bookList = [];
   let authorList = [];
@@ -27,10 +28,6 @@ function App() {
         setAuthorBooks(authBooks);
         toggleAuthor();
       });
-  };
-
-  const markDupe = (dupe, original) => {
-    console.log('duplicate!');
   };
 
   const displayBook = (title) => {
@@ -99,7 +96,10 @@ function App() {
         <input
           type="checkbox"
           id={books[i].title}
-          onClick={() => toggleDupe()}
+          onClick={() => {
+            setDupe(books[i].title);
+            toggleDupe();
+          }}
         ></input>
       </li>
     );
@@ -111,7 +111,8 @@ function App() {
           <li>
             <span className="header">
               <span className="book-name">Title</span>
-              <span className="author-name">Author</span> Duplicate?
+              <span className="author-name">Author</span>{' '}
+              <span className="mark-dupe">Duplicate?</span>
             </span>
           </li>
           {bookList}
@@ -131,7 +132,7 @@ function App() {
           <button onClick={toggleBook}>Back to List</button>
         </div>
       )}
-      {dupeView && <DupePopup />}
+      {dupeView && <DupePopup dupe={dupe} />}
     </div>
   );
 }

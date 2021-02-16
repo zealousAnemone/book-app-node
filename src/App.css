@@ -7,9 +7,13 @@
 }
 .author-name {
   display: inline-block;
-  width: 45%;
+  width: 40%;
 }
 
+.mark-dupe {
+  display: inline-block;
+  width: 5%;
+}
 #dupe-popup {
   width: 500px;
   height: 500px;
@@ -18,7 +22,8 @@
 
 .book-name {
   display: inline-block;
-  width: 45%;
+  width: 40%;
+  margin-right: 5%;
 }
 
 .author-name:hover,
