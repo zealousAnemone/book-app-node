@@ -107,16 +107,18 @@ function App() {
   return (
     <div className="App">
       {!authorView && !bookView && !dupeView && (
-        <ul>
-          <li>
-            <span className="header">
-              <span className="book-name">Title</span>
-              <span className="author-name">Author</span>{' '}
-              <span className="mark-dupe">Duplicate?</span>
-            </span>
-          </li>
-          {bookList}
-        </ul>
+        <div>
+          <ul>
+            <li>
+              <span className="header">
+                <span className="book-name">Title</span>
+                <span className="author-name">Author</span>{' '}
+                <span className="mark-dupe">Duplicate?</span>
+              </span>
+            </li>
+            {bookList}
+          </ul>
+        </div>
       )}
       {authorView && (
         <div className="centered">

@@ -15,11 +15,27 @@
   width: 5%;
 }
 #dupe-popup {
-  width: 500px;
-  height: 500px;
-  background-color: blueviolet;
+  border: 2px solid #444;
+  border-radius: 10px;
+  box-shadow: 3px 3px 3px #444;
+  padding: 30px;
+  text-align: center;
+  width: 40%;
+  margin: 200px auto;
 }
 
+#dupe-popup button {
+  margin-right: 5px;
+}
+
+#dupe-popup input {
+  margin-right: 2em;
+}
+
+.blurred {
+  filter: blur(2px);
+  -webkit-filter: blur(2px);
+}
 .book-name {
   display: inline-block;
   width: 40%;

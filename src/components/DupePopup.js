@@ -1,11 +1,22 @@
+import { useState } from 'react';
+
 const DupePopup = (props) => {
+  const [value, setValue] = useState('');
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
   const markDupe = (dupe, original) => {
-    return `${dupe} is a dupe!`;
+    console.log(`${dupe} is a copy of ${original}`);
   };
 
   return (
     <div id="dupe-popup">
-      <h1>{markDupe(props.dupe)}</h1>
+      <p>Which book is {props.dupe} a duplicate of?</p>
+      <input type="text" value={value} onChange={handleChange}></input>
+      <button onClick={() => markDupe(props.dupe, value)}>
+        Mark as duplicate
+      </button>
+      <button>Cancel</button>
     </div>
   );
 };
