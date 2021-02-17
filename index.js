@@ -23,13 +23,22 @@ const showBooks = (req, res, next) => {
 
 const markDupe = (req, res, next) => {
   const text = `UPDATE public.books SET duplicate_of = '${req.body.original}' WHERE books.title = '${req.body.dupe}'`;
-  console.log('in markDupe, text is ', text);
   pool.query(text, (err, response) => {
     if (err) {
       return next(err);
     }
-    console.log('mark dupe DONE!');
-    next;
+    next();
+  });
+};
+
+const showDupes = (req, res, next) => {
+  const text = `SELECT public.books.title FROM public.books WHERE duplicate_of = '${req.body.title}'`;
+  pool.query(text, (err, response) => {
+    if (err) {
+      return next(err);
+    }
+    res.locals.dupes = response.rows;
+    next();
   });
 };
 
@@ -50,7 +59,6 @@ const showSingleBook = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    console.log(response.rows);
     res.locals.singleBook = response.rows;
     next();
   });
@@ -72,6 +80,10 @@ app.post('/singlebook', showSingleBook, (req, res) => {
 
 app.post('/markdupe', markDupe, (req, res) => {
   res.status(200).json(res.locals.duplicate);
+});
+
+app.post('/showdupes', showDupes, (req, res) => {
+  res.status(200).json(res.locals.dupes);
 });
 
 app.listen(port, () => {

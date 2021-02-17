@@ -15,9 +15,8 @@ const DupePopup = (props) => {
       body: JSON.stringify({ dupe, original }),
     })
       .then((res) => res.json())
-      .then((response) => {
-        console.log('Done marking duplicate! ', response.body);
-        props.toggleDupeView();
+      .then(() => {
+        props.toggleDupe();
       });
   };
 

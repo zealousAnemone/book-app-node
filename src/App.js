@@ -10,9 +10,11 @@ function App() {
   const [authorView, toggleAuthorView] = useState(false);
   const [dupeView, toggleDupeView] = useState(false);
   const [dupe, setDupe] = useState('');
+  const [dupes, setDupes] = useState([]);
 
   let bookList = [];
   let authorList = [];
+  let dupeList = [];
 
   const displayAuthor = (name) => {
     let author = { name };
@@ -43,7 +45,20 @@ function App() {
       .then((singleBook) => {
         setSingleBook(singleBook);
         toggleBook();
-        console.log(singleBook);
+      });
+  };
+
+  const displayDupes = (title) => {
+    fetch('/showdupes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title }),
+    })
+      .then((res) => res.json())
+      .then((dupes) => {
+        setDupes(dupes);
       });
   };
 
@@ -70,6 +85,10 @@ function App() {
   for (let i = 0; i < authorBooks.length; i++) {
     authorList.push(<li key={i}>{authorBooks[i].title}</li>);
   }
+
+  for (let i = 0; i < dupes.length; i++) {
+    dupeList.push(<li key={i}>{dupes[i].title}</li>);
+  }
   for (let i = 0; i < books.length; i++) {
     bookList.push(
       <li key={i}>
@@ -78,6 +97,7 @@ function App() {
           id={books[i].title}
           onClick={(e) => {
             displayBook(e.target.id);
+            displayDupes(e.target.id);
           }}
         >
           {books[i].title}
@@ -129,6 +149,12 @@ function App() {
         <div className="centered">
           <h1>{singleBook[0].title}</h1>
           <h2>{singleBook[0].name}</h2>
+          {dupeList.length > 0 && (
+            <div>
+              <h3>Duplicates:</h3>
+              <ul>{dupeList}</ul>
+            </div>
+          )}
           {singleBook[0].duplicate_of && (
             <p>Duplicate of {singleBook[0].duplicate_of} </p>
           )}
