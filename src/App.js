@@ -32,7 +32,6 @@ function App() {
 
   const displayBook = (title) => {
     let bookTitle = { title };
-    console.log('displayBook: ', bookTitle);
     fetch('/singlebook', {
       method: 'POST',
       headers: {
@@ -58,7 +57,6 @@ function App() {
 
   const toggleDupe = () => {
     toggleDupeView(!dupeView);
-    console.log(dupeView);
   };
 
   useEffect(() => {
@@ -131,10 +129,13 @@ function App() {
         <div className="centered">
           <h1>{singleBook[0].title}</h1>
           <h2>{singleBook[0].name}</h2>
+          {singleBook[0].duplicate_of && (
+            <p>Duplicate of {singleBook[0].duplicate_of} </p>
+          )}
           <button onClick={toggleBook}>Back to List</button>
         </div>
       )}
-      {dupeView && <DupePopup dupe={dupe} />}
+      {dupeView && <DupePopup dupe={dupe} toggleDupe={toggleDupe} />}
     </div>
   );
 }

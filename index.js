@@ -21,6 +21,18 @@ const showBooks = (req, res, next) => {
   });
 };
 
+const markDupe = (req, res, next) => {
+  const text = `UPDATE public.books SET duplicate_of = '${req.body.original}' WHERE books.title = '${req.body.dupe}'`;
+  console.log('in markDupe, text is ', text);
+  pool.query(text, (err, response) => {
+    if (err) {
+      return next(err);
+    }
+    console.log('mark dupe DONE!');
+    next;
+  });
+};
+
 const showAuthor = (req, res, next) => {
   const text = `SELECT public.books.title, public.authors.name FROM public.books INNER JOIN public.authors ON public.books.author_id = public.authors.author_id WHERE public.authors.name = '${req.body.name}'`;
   pool.query(text, (err, response) => {
@@ -33,7 +45,7 @@ const showAuthor = (req, res, next) => {
 };
 
 const showSingleBook = (req, res, next) => {
-  const text = `SELECT public.books.title, public.authors.name FROM public.books INNER JOIN public.authors ON public.books.author_id = public.authors.author_id WHERE public.books.title = '${req.body.title}'`;
+  const text = `SELECT public.books.title, public.books.duplicate_of, public.authors.name FROM public.books INNER JOIN public.authors ON public.books.author_id = public.authors.author_id WHERE public.books.title = '${req.body.title}'`;
   pool.query(text, (err, response) => {
     if (err) {
       return next(err);
@@ -56,6 +68,10 @@ app.post('/author', showAuthor, (req, res) => {
 
 app.post('/singlebook', showSingleBook, (req, res) => {
   res.status(200).json(res.locals.singleBook);
+});
+
+app.post('/markdupe', markDupe, (req, res) => {
+  res.status(200).json(res.locals.duplicate);
 });
 
 app.listen(port, () => {
