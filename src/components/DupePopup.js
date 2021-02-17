@@ -1,12 +1,14 @@
 import { useState } from 'react';
 
 const DupePopup = (props) => {
+  // get value of txt field
   const [value, setValue] = useState('');
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+
+  // send info about duplicates to backend
   const markDuplicate = (dupe, original) => {
-    console.log(`${dupe} is a copy of ${original}`);
     fetch('/markdupe', {
       method: 'POST',
       headers: {

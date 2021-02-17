@@ -3,12 +3,14 @@ const app = express();
 const port = 3001;
 const pg = require('pg');
 
+// connect to the database (insecurely for now)
 const connectionUrl =
   'postgres://wqvuvscz:mEbbbHx6mlXN7mLlAvr5sBbAcJuTNWvy@ziggy.db.elephantsql.com:5432/wqvuvscz';
 const pool = new pg.Pool({
   connectionString: connectionUrl,
 });
 
+// middleware
 const showBooks = (req, res, next) => {
   const text =
     'SELECT public.books.title, public.authors.name FROM public.books INNER JOIN public.authors ON public.books.author_id = public.authors.author_id';
@@ -66,6 +68,7 @@ const showSingleBook = (req, res, next) => {
 
 app.use(express.json());
 
+// routes
 app.get('/books', showBooks, (req, res) =>
   res.status(200).json(res.locals.books)
 );
