@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders on page load 1`] = `
+<div
+  className="App"
+>
+  <div>
+    <ul>
+      <li>
+        <span
+          className="header"
+        >
+          <span
+            className="book-name"
+          >
+            Title
+          </span>
+          <span
+            className="author-name"
+          >
+            Author
+          </span>
+           
+          <span
+            className="mark-dupe"
+          >
+            Duplicate?
+          </span>
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`div with className App is rendered on page load 1`] = `
+<div
+  className="App"
+>
+  <div>
+    <ul>
+      <li>
+        <span
+          className="header"
+        >
+          <span
+            className="book-name"
+          >
+            Title
+          </span>
+          <span
+            className="author-name"
+          >
+            Author
+          </span>
+           
+          <span
+            className="mark-dupe"
+          >
+            Duplicate?
+          </span>
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
