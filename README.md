@@ -1,3 +1,7 @@
+# Getting started with THIS app
+
+Make sure to install dependencies, then npm start to start the React app and Express server.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
